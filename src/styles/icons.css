@@ -1,0 +1,29 @@
+.ico-arrow {
+  display: inline-block;
+  width: 14px;
+  height: 8px;
+  flex: none;
+  background: url("/icons/icon_arrow_down.png") center / contain no-repeat;
+
+  &.type2 {
+    width: 20px;
+    height: 20px;
+    background: url("/icons/icon_arrow_down2.png") center / contain no-repeat;
+  }
+}
+
+.ico-search {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  background: url("/icons/icon_search.png") center / contain no-repeat;
+}
+
+.ico-close {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  background: url("/icons/icon_close.png") center / contain no-repeat;
+}

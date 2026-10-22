@@ -1,0 +1,47 @@
+@utility typo-title-1 {
+  font-size: var(--text-xxl);
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+@utility typo-title-2 {
+  font-size: var(--text-xl);
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+@utility typo-title-3 {
+  font-size: var(--text-md);
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+@utility typo-body-1 {
+  font-size: var(--text-lg);
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+@utility typo-body-2 {
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+@utility typo-body-2-bold {
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+@utility typo-caption {
+  font-size: var(--text-base);
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+@utility typo-small {
+  font-size: var(--text-xs);
+  line-height: 1.6;
+  font-weight: 500;
+}

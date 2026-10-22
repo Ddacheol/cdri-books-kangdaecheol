@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "@/styles/theme.css" layer(theme);
+@import "@/styles/reset.css" layer(base);
+@import "@/styles/utils.css";
+@import "@/styles/icons.css";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
