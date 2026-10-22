@@ -1,0 +1,33 @@
+export type BookSearchParams = {
+  query: string;
+  sort: "accuracy" | "latest";
+  page: number;
+  size: number;
+  target?: "title" | "isbn" | "publisher" | "person";
+};
+
+export type BookSearchForm = Pick<BookSearchParams, "query" | "target">;
+
+export type BookSearchResponse = {
+  meta: {
+    total_count: number;
+    pageable_count: number;
+    is_end: boolean;
+  };
+  documents: Book[];
+};
+
+export type Book = {
+  title: string;
+  contents: string;
+  url: string;
+  isbn: string;
+  datetime: Date;
+  authors: string[];
+  publisher: string;
+  translators: string[];
+  price: number;
+  sale_price: number;
+  thumbnail: string;
+  status: string;
+};

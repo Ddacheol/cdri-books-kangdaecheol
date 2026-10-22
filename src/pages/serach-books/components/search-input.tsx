@@ -1,4 +1,4 @@
-import { useRef, useState, type ChangeEventHandler } from "react";
+import { useEffect, useRef, useState, type ChangeEventHandler } from "react";
 import { Button } from "@/components/ui/button";
 import {
   InputGroup,
@@ -29,8 +29,29 @@ export default function SearchInput({
     () => getLocalStorage("search_history") || [],
   );
 
+  const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const showHistory = isOpen && !disabled && history.length > 0;
+
+  useEffect(() => {
+    if (!showHistory) return;
+
+    const handleClickOutside = (event: Event) => {
+      const container = containerRef.current;
+      if (container && !container.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    // iOS에서는 내부 버튼을 탭해도 blur.relatedTarget이 null일 수 있다.
+    // blur 대신 실제 이벤트 대상이 검색창 바깥인지 확인한다.
+    document.addEventListener("pointerdown", handleClickOutside, true);
+    document.addEventListener("focusin", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("pointerdown", handleClickOutside, true);
+      document.removeEventListener("focusin", handleClickOutside, true);
+    };
+  }, [showHistory]);
 
   const handleSearch = (searchValue = value) => {
     const keyword = searchValue.trim();
@@ -60,12 +81,8 @@ export default function SearchInput({
 
   return (
     <div
+      ref={containerRef}
       className={cn("relative w-full min-w-0", showHistory && "z-10")}
-      onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) {
-          setIsOpen(false);
-        }
-      }}
       onKeyDown={(event) => {
         if (event.key === "Escape") setIsOpen(false);
       }}
@@ -117,15 +134,7 @@ export default function SearchInput({
         )}
       </InputGroup>
       {showHistory && (
-        <ul
-          className="absolute top-full left-0 m-0 pt-2 pb-4 max-h-150 w-full list-none overflow-y-auto rounded-b-[24px] bg-lightgray"
-          onMouseDown={(event) => {
-            const target = event.target as HTMLElement;
-            if (!target.closest("button")) {
-              event.preventDefault();
-            }
-          }}
-        >
+        <ul className="absolute top-full left-0 m-0 pt-2 pb-4 max-h-150 w-full list-none overflow-y-auto rounded-b-[24px] bg-lightgray">
           {history.map((keyword) => (
             <li
               key={keyword}

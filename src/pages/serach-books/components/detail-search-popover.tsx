@@ -16,12 +16,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import type { DetailSearchParams } from "@/types/book";
+import type { BookSearchForm } from "@/types/books";
 
 type DetailSearchPopoverProps = {
-  value: DetailSearchParams;
-  onChange: (value: DetailSearchParams) => void;
-  onSearch: (value: DetailSearchParams) => void;
+  value: BookSearchForm;
+  onSearch: (value: BookSearchForm) => void;
 };
 
 const searchOptions = [
@@ -31,15 +30,15 @@ const searchOptions = [
 ];
 
 export default function DetailSearchPopover({
-  value,
-  onChange,
+  value: initialValue,
   onSearch,
 }: DetailSearchPopoverProps) {
   const [open, setOpen] = useState(false);
+  const [value, setValue] = useState<BookSearchForm>(initialValue);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleDelete = () => {
-    onChange({ ...value, query: "" });
+    setValue({ ...value, query: "" });
     const input = inputRef.current;
     if (input) input.focus();
   };
@@ -83,7 +82,7 @@ export default function DetailSearchPopover({
               items={searchOptions}
               value={value.target}
               onValueChange={(target) => {
-                if (target) onChange({ ...value, target });
+                if (target) setValue({ ...value, target });
               }}
             >
               <SelectTrigger className="flex-1 max-w-[100px]">
@@ -102,7 +101,7 @@ export default function DetailSearchPopover({
                 ref={inputRef}
                 value={value.query}
                 onChange={(event) =>
-                  onChange({ ...value, query: event.target.value })
+                  setValue({ ...value, query: event.target.value })
                 }
                 onKeyDown={(event) => {
                   if (event.key === "Enter" && event.nativeEvent.isComposing) {

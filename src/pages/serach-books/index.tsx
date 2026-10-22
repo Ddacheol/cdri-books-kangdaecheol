@@ -1,25 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NoData from "@/components/books/no-data";
 import SearchInput from "@/pages/serach-books/components/search-input";
 import DetailSearchPopover from "@/pages/serach-books/components/detail-search-popover";
-import type { DetailSearchParams } from "@/types/book";
+import type { BookSearchForm } from "@/types/books";
 import BookList from "@/components/books/book-list";
+import { useInfiniteBooks } from "@/hooks/use-infinite-books";
 
 export default function SearchBooks() {
-  const [inputValue, setInputValue] = useState<string>("");
-  const [detailSearch, setDetailSearch] = useState<DetailSearchParams>({
-    target: "title",
+  const [inputValue, setInputValue] = useState("");
+  const [detailSearch, setDetailSearch] = useState<BookSearchForm>({
     query: "",
+    target: "title",
   });
 
+  const { data } = useInfiniteBooks(detailSearch);
+  const books = data.flatMap((page) => page.documents);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   const handleSearch = (value: string) => {
-    setInputValue(value);
-    setDetailSearch({ target: "title", query: "" });
+    const query = value.trim();
+    if (!query) return;
+
+    setInputValue(query);
+    setDetailSearch({ query });
   };
 
-  const handleDetailSearch = (condition: DetailSearchParams) => {
+  const handleDetailSearch = (condition: BookSearchForm) => {
+    const query = condition.query.trim();
+    if (!query) return;
+
+    const nextCondition = { ...condition, query };
     setInputValue("");
-    setDetailSearch(condition);
+    setDetailSearch(nextCondition);
   };
 
   return (
@@ -34,8 +49,11 @@ export default function SearchBooks() {
         />
 
         <DetailSearchPopover
-          value={detailSearch}
-          onChange={setDetailSearch}
+          key={JSON.stringify(detailSearch)}
+          value={{
+            target: detailSearch.target ?? "title",
+            query: detailSearch.target ? detailSearch.query : "",
+          }}
           onSearch={handleDetailSearch}
         />
       </div>
@@ -46,8 +64,11 @@ export default function SearchBooks() {
         </span>
       </div>
       {/* TODO:: 목록, 검색 결과 없을 때 분기 처리 */}
-      <BookList />
-      <NoData text="검색된 결과가 없습니다." className="py-30" />
+      {books.length > 0 ? (
+        <BookList books={books} />
+      ) : (
+        <NoData text="검색된 결과가 없습니다." className="py-30" />
+      )}
     </main>
   );
 }
