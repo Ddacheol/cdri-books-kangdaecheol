@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 type UseInfiniteScrollProps = {
   onLoad: () => void;
   hasNextPage: boolean;
-  isLoading: boolean;
+  isLoading?: boolean;
   observerOptions?: IntersectionObserverInit;
 };
 

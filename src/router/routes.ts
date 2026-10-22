@@ -1,5 +1,5 @@
 import FavoriteBooks from "@/pages/favorite-books";
-import SearchBooks from "@/pages/serach-books";
+import SearchBooks from "@/pages/search-books";
 
 type RouterConfig = {
   Component: React.FC;

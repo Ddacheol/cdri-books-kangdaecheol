@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent } from "react";
 import NoData from "@/components/books/no-data";
-import SearchInput from "@/pages/serach-books/components/search-input";
-import DetailSearchPopover from "@/pages/serach-books/components/detail-search-popover";
+import SearchInput from "@/pages/search-books/components/search-input";
+import DetailSearchPopover from "@/pages/search-books/components/detail-search-popover";
 import type { BookSearchForm } from "@/types/books";
 import BookList from "@/components/books/book-list";
 import { useInfiniteBooks } from "@/hooks/use-infinite-books";

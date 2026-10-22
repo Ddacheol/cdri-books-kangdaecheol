@@ -1,4 +1,4 @@
-import { cn, regComma } from "@/lib/utils";
+import { cn, getLocalStorage, regComma, setLocalStorage } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -9,11 +9,31 @@ import {
 import { useState } from "react";
 import type { Book } from "@/types/books";
 
-export default function BookList({ books = [] }: { books: Book[] }) {
+export default function BookList({
+  books = [],
+  onFavoriteBooksChange,
+}: {
+  books: Book[];
+  onFavoriteBooksChange?: (books: Book[]) => void;
+}) {
   const [openIds, setOpenIds] = useState<string[]>([]);
+  const [favoriteBooks, setFavoriteBooks] = useState<Book[]>(
+    () => getLocalStorage("favorite_books") || [],
+  );
 
   const handleClickPurchase = (url: string) => {
     window.open(url, "_blank");
+  };
+
+  const handleClickFavorite = (book: Book) => {
+    const duplicate = favoriteBooks.find((item) => item.isbn === book.isbn);
+    const newFavoriteBooks = duplicate
+      ? favoriteBooks.filter((item) => item.isbn !== book.isbn)
+      : [book, ...favoriteBooks];
+
+    setFavoriteBooks(newFavoriteBooks);
+    setLocalStorage("favorite_books", newFavoriteBooks);
+    if (onFavoriteBooksChange) onFavoriteBooksChange(newFavoriteBooks);
   };
 
   return (
@@ -29,7 +49,7 @@ export default function BookList({ books = [] }: { books: Book[] }) {
               <div className="flex items-start py-4 pl-12 pr-4 border-b-1 border-line max-md:pl-4 max-sm:flex-wrap max-sm:px-2">
                 <div
                   className={cn(
-                    "relative w-12 h-17 shrink-0 transition-[width,height] duration-300 motion-reduce:transition-none",
+                    "relative w-12 h-17 shrink-0 transition-[width,height] duration-300 ",
                     isOpen &&
                       "w-52.5 h-70 max-md:w-42.5 max-md:h-60 max-sm:w-32.5 max-sm:h-50",
                   )}
@@ -45,10 +65,21 @@ export default function BookList({ books = [] }: { books: Book[] }) {
                   <Button
                     type="button"
                     variant="icon"
-                    className="size-4 absolute top-0.5 right-0.5"
-                    onClick={() => {}}
+                    className={cn(
+                      "size-4 absolute top-0.5 right-0.5 transition-[width,height] duration-300",
+                      isOpen && "size-6",
+                    )}
+                    onClick={() => {
+                      handleClickFavorite(book);
+                    }}
                   >
-                    <i className="ico-heart fill" />
+                    <i
+                      className={cn(
+                        "ico-heart",
+                        favoriteBooks.some((item) => item.isbn === book.isbn) &&
+                          "fill",
+                      )}
+                    />
                   </Button>
                 </div>
                 <div
@@ -80,7 +111,7 @@ export default function BookList({ books = [] }: { books: Book[] }) {
                   </div>
                   <div
                     className={cn(
-                      "basis-full pt-4 transition-all-inout2 max-sm:pt-2",
+                      "basis-full pt-4 transition-opacity max-sm:pt-2",
                       isOpen ? "delay-250 opacity-100" : "opacity-0",
                     )}
                   >
