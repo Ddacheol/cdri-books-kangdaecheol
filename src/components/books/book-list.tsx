@@ -103,7 +103,9 @@ export default function BookList({
                     <span
                       className={cn(
                         "shrink-0 whitespace-nowrap typo-title-3 max-sm:typo-body-2-bold ml-2",
-                        isOpen ? "opacity-0" : "delay-200 opacity-100",
+                        isOpen
+                          ? "opacity-0"
+                          : "delay-200 opacity-100 duration-300",
                       )}
                     >
                       {regComma(isSalePrice ? book.sale_price : book.price)}원
@@ -118,7 +120,7 @@ export default function BookList({
                     <AccordionContent>
                       <span className="typo-body-2-bold">책 소개</span>
                       <div className="mt-3 typo-small whitespace-pre-wrap">
-                        {book.contents}
+                        {book.contents || "내용이 없습니다."}
                       </div>
                     </AccordionContent>
                   </div>
@@ -134,7 +136,7 @@ export default function BookList({
                     variant="default"
                     color="primary"
                     className={cn(
-                      "max-sm:w-20 transition-opacity",
+                      "max-sm:w-20 transition-opacity max-sm:delay-0 duration-300",
                       isOpen
                         ? "absolute invisible pointer-events-none opacity-0"
                         : "opacity-100 delay-200",
@@ -146,7 +148,7 @@ export default function BookList({
                     구매하기
                   </Button>
                   {isOpen && (
-                    <div className="flex flex-col items-end w-full max-h-60 overflow-hidden opacity-100 transition-[max-height,opacity] [transition-duration:0ms,300ms] delay-300 starting:max-h-0 starting:opacity-0 motion-reduce:transition-none">
+                    <div className="flex flex-col items-end w-full max-h-60 overflow-hidden opacity-100 transition-[max-height,opacity] [transition-duration:0ms,300ms] delay-300 starting:max-h-0 starting:opacity-0 ">
                       <div className="flex flex-col items-end">
                         <div className="flex items-center gap-1.5 text-right">
                           <span className="w-[33px] typo-small text-text-subtitle">
