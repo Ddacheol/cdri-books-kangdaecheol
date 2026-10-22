@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState, type ChangeEvent } from "react";
 import NoData from "@/components/books/no-data";
 import SearchInput from "@/pages/serach-books/components/search-input";
 import DetailSearchPopover from "@/pages/serach-books/components/detail-search-popover";
 import type { BookSearchForm } from "@/types/books";
 import BookList from "@/components/books/book-list";
 import { useInfiniteBooks } from "@/hooks/use-infinite-books";
+import Loading from "@/components/books/loading";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 export default function SearchBooks() {
   const [inputValue, setInputValue] = useState("");
@@ -13,12 +15,28 @@ export default function SearchBooks() {
     target: "title",
   });
 
-  const { data } = useInfiniteBooks(detailSearch);
-  const books = data.flatMap((page) => page.documents);
+  const {
+    books,
+    totalCount,
+    isFetching,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteBooks(detailSearch);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const observerRef = useInfiniteScroll({
+    onLoad: fetchNextPage,
+    hasNextPage,
+    isLoading: isFetching,
+  });
+
+  const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleDeleteInput = () => {
+    setInputValue("");
+  };
 
   const handleSearch = (value: string) => {
     const query = value.trim();
@@ -43,32 +61,33 @@ export default function SearchBooks() {
       <div className="flex flex-row items-center gap-4 mt-6 max-w-[568px] max-md:max-w-full">
         <SearchInput
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          onDelete={() => setInputValue("")}
+          onChange={handleChangeInput}
+          onDelete={handleDeleteInput}
           onSearch={handleSearch}
         />
 
         <DetailSearchPopover
-          key={JSON.stringify(detailSearch)}
-          value={{
-            target: detailSearch.target ?? "title",
-            query: detailSearch.target ? detailSearch.query : "",
-          }}
+          searchForm={detailSearch}
           onSearch={handleDetailSearch}
         />
       </div>
       <div className="flex flex-row items-center gap-4 mt-6 typo-caption">
         <span>도서 검색 결과</span>
         <span>
-          총 <span className="text-primary">0</span>건
+          총 <span className="text-primary">{totalCount}</span>건
         </span>
       </div>
-      {/* TODO:: 목록, 검색 결과 없을 때 분기 처리 */}
-      {books.length > 0 ? (
-        <BookList books={books} />
+      {isFetching && !isFetchingNextPage ? (
+        <Loading className="py-30" size={60} />
+      ) : books.length > 0 ? (
+        <>
+          <BookList books={books} />
+          {isFetchingNextPage && <Loading className="py-5" size={30} />}
+        </>
       ) : (
         <NoData text="검색된 결과가 없습니다." className="py-30" />
       )}
+      <div ref={observerRef} className="h-1" />
     </main>
   );
 }

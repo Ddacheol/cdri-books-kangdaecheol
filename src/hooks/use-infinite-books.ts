@@ -19,8 +19,12 @@ export const useInfiniteBooks = (form: BookSearchForm) => {
     enabled: form.query.trim().length > 0,
   });
 
+  const books = data.pages.flatMap((page) => page.documents);
+  const totalCount = data.pages.length ? data.pages[0].meta.total_count : 0;
+
   return {
     ...query,
-    data: data.pages,
+    books,
+    totalCount,
   };
 };

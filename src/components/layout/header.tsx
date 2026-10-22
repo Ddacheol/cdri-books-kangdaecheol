@@ -12,7 +12,7 @@ export default function Header() {
   return (
     <header
       id="header"
-      className="flex items-center gap-8 px-40 py-6 max-md:px-10 max-sm:px-6 max-md:justify-between"
+      className="fixed w-full flex items-center gap-8 px-40 py-6 bg-white z-999 max-md:px-10 max-sm:px-6 max-md:justify-between"
     >
       <h1 className="whitespace-nowrap typo-title-1 leading-8 basis-143 max-md:basis-auto max-sm:typo-caption">
         CERTICOS BOOKS

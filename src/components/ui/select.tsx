@@ -155,7 +155,7 @@ function SelectItem({
       className={cn(
         [
           // 기본 배치
-          "relative flex w-full cursor-default items-center gap-1.5",
+          "relative flex w-full cursor-default items-center gap-1.5 cursor-pointer hover:bg-lightgray",
           // 외형 및 여백
           "py-1 px-2",
           // 텍스트 및 선택

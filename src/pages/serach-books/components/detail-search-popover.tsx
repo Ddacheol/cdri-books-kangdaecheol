@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,7 +19,7 @@ import {
 import type { BookSearchForm } from "@/types/books";
 
 type DetailSearchPopoverProps = {
-  value: BookSearchForm;
+  searchForm: BookSearchForm;
   onSearch: (value: BookSearchForm) => void;
 };
 
@@ -30,24 +30,38 @@ const searchOptions = [
 ];
 
 export default function DetailSearchPopover({
-  value: initialValue,
+  searchForm,
   onSearch,
 }: DetailSearchPopoverProps) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState<BookSearchForm>(initialValue);
+  const [newform, setNewForm] = useState<BookSearchForm>({
+    target: searchForm.target ?? "title",
+    query: searchForm.target ? searchForm.query : "",
+  });
   const inputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    setNewForm({
+      target: searchForm.target ?? "title",
+      query: searchForm.target ? searchForm.query : "",
+    });
+  }, [searchForm]);
+
+  const handleChangeInput = (name: keyof BookSearchForm, value: string) => {
+    setNewForm((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleDelete = () => {
-    setValue({ ...value, query: "" });
+    handleChangeInput("query", "");
     const input = inputRef.current;
     if (input) input.focus();
   };
 
   const handleSearch = () => {
-    const query = value.query.trim();
+    const query = newform.query.trim();
     if (!query) return;
 
-    onSearch({ ...value, query });
+    onSearch({ ...newform, query });
     setOpen(false);
   };
 
@@ -80,9 +94,9 @@ export default function DetailSearchPopover({
           <div className="flex gap-1">
             <Select
               items={searchOptions}
-              value={value.target}
+              value={newform.target}
               onValueChange={(target) => {
-                if (target) setValue({ ...value, target });
+                if (target) handleChangeInput("target", target);
               }}
             >
               <SelectTrigger className="flex-1 max-w-[100px]">
@@ -99,9 +113,9 @@ export default function DetailSearchPopover({
             <div className="relative min-w-0 flex-1">
               <Input
                 ref={inputRef}
-                value={value.query}
+                value={newform.query}
                 onChange={(event) =>
-                  setValue({ ...value, query: event.target.value })
+                  handleChangeInput("query", event.target.value)
                 }
                 onKeyDown={(event) => {
                   if (event.key === "Enter" && event.nativeEvent.isComposing) {
@@ -112,7 +126,7 @@ export default function DetailSearchPopover({
                 variant="underline"
                 className="pr-9"
               />
-              {value.query && (
+              {newform.query && (
                 <Button
                   type="button"
                   variant="icon"
@@ -129,7 +143,7 @@ export default function DetailSearchPopover({
             variant="default"
             size="sm"
             className="mt-4 w-full"
-            disabled={!value.query.trim()}
+            disabled={!newform.query.trim()}
           >
             검색하기
           </Button>
