@@ -31,7 +31,7 @@
     font-family: "Noto Sans KR";
     font-style: normal;
     font-weight: 500;
-    src: url("/fonts/NotoSansKR-Regular.ttf") format("truetype");
+    src: url("/fonts/NotoSansKR-Medium.ttf") format("truetype");
   }
 
   @font-face {
@@ -59,5 +59,7 @@
     font-size: 16px;
     counter-reset: section;
     line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    color: var(--color-text-primary);
   }
 }

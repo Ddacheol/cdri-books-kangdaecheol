@@ -75,11 +75,10 @@ export default function SearchInput({
           <Button
             type="button"
             variant="icon"
-            aria-label="검색"
             disabled={disabled}
             onClick={() => handleSearch()}
           >
-            <i className="ico-search" aria-hidden="true" />
+            <i className="ico-search" />
           </Button>
         </InputGroupAddon>
         <InputGroupInput
@@ -104,7 +103,6 @@ export default function SearchInput({
             <Button
               type="button"
               variant="icon"
-              aria-label="검색어 삭제"
               className="size-6"
               disabled={disabled}
               onClick={() => {
@@ -113,14 +111,13 @@ export default function SearchInput({
                 if (input) input.focus();
               }}
             >
-              <i className="ico-close" aria-hidden="true" />
+              <i className="ico-close fill" />
             </Button>
           </InputGroupAddon>
         )}
       </InputGroup>
       {showHistory && (
         <ul
-          aria-label="최근 검색 기록"
           className="absolute top-full left-0 m-0 pt-2 pb-4 max-h-150 w-full list-none overflow-y-auto rounded-b-[24px] bg-lightgray"
           onMouseDown={(event) => {
             const target = event.target as HTMLElement;
@@ -144,11 +141,10 @@ export default function SearchInput({
               <Button
                 type="button"
                 variant="icon"
-                aria-label={`${keyword} 검색 기록 삭제`}
                 className="size-6"
                 onClick={() => handleDelete(keyword)}
               >
-                <i className="ico-close" aria-hidden="true" />
+                <i className="ico-close" />
               </Button>
             </li>
           ))}

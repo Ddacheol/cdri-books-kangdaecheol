@@ -6,7 +6,7 @@ const tabsListVariants = cva("group/tabs-list inline-flex w-fit items-center", {
   variants: {
     variant: {
       default: "gap-14 rounded-lg bg-lightgray p-1",
-      line: "gap-14",
+      line: "gap-14 max-sm:gap-4",
     },
   },
   defaultVariants: {
@@ -15,7 +15,11 @@ const tabsListVariants = cva("group/tabs-list inline-flex w-fit items-center", {
 });
 
 const triggerStyles = {
-  base: "relative inline-flex items-center justify-center pb-0.5 typo-body-1 whitespace-nowrap text-text-primary transition-colors cursor-pointer",
+  base: [
+    "relative inline-flex items-center justify-center pb-0.5 typo-body-1 whitespace-nowrap text-text-primary transition-colors cursor-pointer",
+    "max-sm:typo-caption",
+  ],
+
   interaction:
     "hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50",
   active: "data-active:text-text-primary data-active:cursor-default",

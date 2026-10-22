@@ -10,8 +10,11 @@ export default function Header() {
   };
 
   return (
-    <header id="header" className="flex items-center gap-8 px-40 py-6">
-      <h1 className="basis-143 whitespace-nowrap typo-title-1 leading-8">
+    <header
+      id="header"
+      className="flex items-center gap-8 px-40 py-6 max-md:px-10 max-sm:px-6 max-md:justify-between"
+    >
+      <h1 className="whitespace-nowrap typo-title-1 leading-8 basis-143 max-md:basis-auto max-sm:typo-caption">
         CERTICOS BOOKS
       </h1>
       <Tabs

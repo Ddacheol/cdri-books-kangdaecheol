@@ -46,11 +46,11 @@ function SelectTrigger({
           // 외형 및 여백
           "border-b-1 border-line bg-transparent pr-1 pl-2",
           // 텍스트 및 전환
-          "typo-body-2-bold whitespace-nowrap transition-colors outline-none select-none",
+          "typo-body-2-bold whitespace-nowrap transition-colors outline-none select-none cursor-pointer",
           // 포커스 및 목록 열림 상태
           "data-popup-open:border-primary data-popup-open:[&_i]:rotate-180",
           // 비활성화
-          "disabled:cursor-not-allowed disabled:opacity-50",
+          "disabled:cursor-default disabled:opacity-50",
           // 오류 상태
           "aria-invalid:border-red",
           // 플레이스홀더
@@ -65,10 +65,7 @@ function SelectTrigger({
       {children}
       <SelectPrimitive.Icon
         render={
-          <i
-            className="ico-arrow type2 transition-transform ease-inout1 duration-200"
-            aria-hidden="true"
-          />
+          <i className="ico-arrow type2 transition-transform ease-inout1 duration-200" />
         }
         children={null}
       />
@@ -141,7 +138,7 @@ function SelectLabel({
   return (
     <SelectPrimitive.GroupLabel
       data-slot="select-label"
-      className={cn("px-1.5 py-1 text-xs text-muted-foreground", className)}
+      className={cn("px-1.5 py-1 text-xxs text-muted-foreground", className)}
       {...props}
     />
   );

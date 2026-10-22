@@ -1,69 +1,53 @@
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import SearchInput from "./components/search-input";
-import NoData from "@/components/no-data";
-
-const searchOptions = [
-  { label: "선택", value: null },
-  { label: "제목", value: "title" },
-  { label: "저자명", value: "person" },
-  { label: "출판사", value: "publisher" },
-];
+import NoData from "@/components/books/no-data";
+import SearchInput from "@/pages/serach-books/components/search-input";
+import DetailSearchPopover from "@/pages/serach-books/components/detail-search-popover";
+import type { DetailSearchParams } from "@/types/book";
+import BookList from "@/components/books/book-list";
 
 export default function SearchBooks() {
-  const [keyword, setKeyword] = useState("");
+  const [inputValue, setInputValue] = useState<string>("");
+  const [detailSearch, setDetailSearch] = useState<DetailSearchParams>({
+    target: "title",
+    query: "",
+  });
+
+  const handleSearch = (value: string) => {
+    setInputValue(value);
+    setDetailSearch({ target: "title", query: "" });
+  };
+
+  const handleDetailSearch = (condition: DetailSearchParams) => {
+    setInputValue("");
+    setDetailSearch(condition);
+  };
 
   return (
-    <>
-      <main className="flex gap-2">
-        <Button variant="default">구매하기</Button>
-        <Button variant="default" color="lightgray">
-          상세보기
-          <i className="ico-arrow" />
-        </Button>
-        <Button variant="default" color="primary" size="sm">
-          검색하기
-        </Button>
-        <Button variant="outline" color="gray" size="xs">
-          상세검색
-        </Button>
-      </main>
-      <br />
-      <div className="flex items-start gap-1 max-w-[360px]">
-        <Select items={searchOptions}>
-          <SelectTrigger aria-label="검색 기준">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {searchOptions.map(({ label, value }) => (
-              <SelectItem key={value} value={value}>
-                {label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Input variant="underline" placeholder="검색어 입력" />
-      </div>
-      <div>
+    <main>
+      <h2 className="typo-title-2">도서 검색</h2>
+      <div className="flex flex-row items-center gap-4 mt-6 max-w-[568px] max-md:max-w-full">
         <SearchInput
-          value={keyword}
-          onChange={(event) => setKeyword(event.target.value)}
-          onDelete={() => setKeyword("")}
-          onSearch={(searchValue) => {
-            setKeyword(searchValue);
-            alert("search");
-          }}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onDelete={() => setInputValue("")}
+          onSearch={handleSearch}
+        />
+
+        <DetailSearchPopover
+          value={detailSearch}
+          onChange={setDetailSearch}
+          onSearch={handleDetailSearch}
         />
       </div>
-      <NoData text="찜한 책이 없습니다." />
-    </>
+      <div className="flex flex-row items-center gap-4 mt-6 typo-caption">
+        <span>도서 검색 결과</span>
+        <span>
+          총 <span className="text-primary">0</span>건
+        </span>
+      </div>
+      {/* TODO:: 목록, 검색 결과 없을 때 분기 처리 */}
+      <BookList />
+      <NoData text="검색된 결과가 없습니다." className="py-30" />
+    </main>
   );
 }

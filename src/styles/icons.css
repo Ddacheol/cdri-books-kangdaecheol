@@ -26,4 +26,22 @@
   height: 24px;
   flex: none;
   background: url("/icons/icon_close.png") center / contain no-repeat;
+
+  &.gray {
+    width: 20px;
+    height: 20px;
+    background: url("/icons/icon_close_gray.png") center / contain no-repeat;
+  }
+}
+
+.ico-heart {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  background: url("/icons/icon_heart_line.png") center / contain no-repeat;
+
+  &.fill {
+    background: url("/icons/icon_heart_fill.png") center / contain no-repeat;
+  }
 }

@@ -26,3 +26,17 @@ export const setLocalStorage = (key: string, value: unknown) => {
 export const clearLocalStorage = (key: string) => {
   window.localStorage.removeItem(key);
 };
+
+export const regComma = (value: string | number | null) => {
+  if (
+    value !== null &&
+    (typeof value === "string" || typeof value === "number")
+  ) {
+    const splitVal = value.toString().split(".");
+    splitVal[0] = splitVal[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    return splitVal.join(".");
+  } else {
+    return "-";
+  }
+};

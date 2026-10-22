@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 type ButtonProps = ButtonPrimitive.Props & VariantProps<typeof buttonVariants>;
 
 const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center rounded-lg cursor-pointer disabled:cursor-default disabled:bg-gray disabled:hover:bg-gray disabled:active:bg-gray disabled:focus:bg-gray has-[[class*='ico-']]:gap-1 [&_.ico-arrow]:mt-0.5",
+  "inline-flex shrink-0 items-center justify-center rounded-lg cursor-pointer disabled:cursor-default disabled:bg-gray disabled:hover:bg-gray disabled:active:bg-gray disabled:focus:bg-gray has-[[class*='ico-']]:gap-1 [&_.ico-arrow]:mt-0.5 [&_i]:transition-transform [&_i]:ease-inout1 [&_i]:duration-300",
   {
     variants: {
       variant: {
@@ -18,7 +18,7 @@ const buttonVariants = cva(
         default:
           "px-7 h-12 typo-caption has-[[class*='ico-']]:pl-5 has-[[class*='ico-']]:pr-4.5",
         sm: "px-2.5 h-9 typo-body-2",
-        xs: "px-2.5 h-8.75 typo-body-2",
+        xs: "px-2.5 h-8.75 typo-body-2 max-sm:h-8 max-sm:text-[12px]",
       },
       color: {
         primary: "",
@@ -28,9 +28,15 @@ const buttonVariants = cva(
     },
     compoundVariants: [
       {
+        variant: ["default", "outline"],
+        size: "default",
+        className:
+          "max-sm:px-2 max-sm:text-[12px] max-sm:h-10 max-sm:has-[[class*='ico-']]:pl-2 max-sm:has-[[class*='ico-']]:pr-2",
+      },
+      {
         variant: "icon",
         className:
-          "size-8 p-0 has-[[class*='ico-']]:pl-0 has-[[class*='ico-']]:pr-0",
+          "size-8 p-0 has-[[class*='ico-']]:pl-0 has-[[class*='ico-']]:pr-0 [&>i]:size-full!",
       },
       {
         variant: "default",

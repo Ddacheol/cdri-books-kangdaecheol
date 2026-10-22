@@ -22,7 +22,8 @@
 
   /* ST:: TEXT */
   --text-base: 1rem; /* 16px */
-  --text-xs: 0.625rem; /* 10px */
+  --text-xxs: 0.625rem; /* 10px */
+  --text-xs: 0.75rem; /* 12px */
   --text-sm: 0.875rem; /* 14px */
   --text-md: 1.125rem; /* 18px */
   --text-lg: 1.25rem; /* 20px */
@@ -38,4 +39,14 @@
   --ease-inout5: cubic-bezier(0.44, 0.14, 0.18, 1);
   --ease-inout6: cubic-bezier(0.4, 0, 0.2, 1);
   /* EN:: EASING */
+
+  --animate-fadein: fadein 1.5s var(--ease-inout1) backwards;
+  @keyframes fadein {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 }
