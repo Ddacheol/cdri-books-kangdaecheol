@@ -7,8 +7,10 @@ import BookList from "@/components/books/book-list";
 import { useInfiniteBooks } from "@/hooks/use-infinite-books";
 import Loading from "@/components/books/loading";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function SearchBooks() {
+  const queryClient = useQueryClient();
   const [inputValue, setInputValue] = useState("");
   const [detailSearch, setDetailSearch] = useState<BookSearchForm>({
     query: "",
@@ -59,6 +61,11 @@ export default function SearchBooks() {
     const query = value.trim();
     if (!query) return;
 
+    if (detailSearch.query === query) {
+      queryClient.resetQueries({ queryKey: ["books"] });
+      return;
+    }
+
     setInputValue(query);
     setDetailSearch({ query });
   };
@@ -73,7 +80,7 @@ export default function SearchBooks() {
   };
 
   return (
-    <main>
+    <main className="flex-1 flex flex-col">
       <h2 className="typo-title-2">도서 검색</h2>
       <div className="flex flex-row items-center gap-4 mt-6 max-w-[568px] max-md:max-w-full">
         <SearchInput
@@ -102,13 +109,13 @@ export default function SearchBooks() {
         />
       )}
       {showNoData && (
-        <NoData text="검색된 결과가 없습니다." className="py-30" />
+        <NoData text="검색된 결과가 없습니다." className="py-30 max-sm:py-0" />
       )}
       <div ref={observerRef} className="h-1" />
       {isError && !isFetching && (
         <NoData
           text={`에러가 발생했습니다.\n다시 시도해주세요.`}
-          className={hasBooks ? "py-5" : "py-30"}
+          className={hasBooks ? "py-5" : "py-30 max-sm:py-0"}
           onRetry={handleRetry}
         />
       )}

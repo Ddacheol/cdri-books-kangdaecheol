@@ -29,7 +29,7 @@ export default function SearchInput({
     () => getLocalStorage("search_history") || [],
   );
 
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLFormElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const showHistory = isOpen && !disabled && history.length > 0;
 
@@ -67,6 +67,8 @@ export default function SearchInput({
     setLocalStorage("search_history", newHistory);
     setIsOpen(false);
     onSearch(keyword);
+
+    if (inputRef.current) inputRef.current.blur();
   };
 
   const handleDelete = (keyword: string) => {
@@ -80,8 +82,12 @@ export default function SearchInput({
   };
 
   return (
-    <div
+    <form
       ref={containerRef}
+      onSubmit={(event) => {
+        event.preventDefault();
+        handleSearch();
+      }}
       className={cn("relative w-full min-w-0", showHistory && "z-10")}
       onKeyDown={(event) => {
         if (event.key === "Escape") setIsOpen(false);
@@ -107,12 +113,6 @@ export default function SearchInput({
           onClick={() => setIsOpen(true)}
           onKeyUp={(event) => {
             if (event.key === "Tab") setIsOpen(true);
-          }}
-          onKeyDown={(event) => {
-            if (event.key === "Enter" && !event.nativeEvent.isComposing) {
-              event.preventDefault();
-              handleSearch();
-            }
           }}
         />
         {value && (
@@ -159,6 +159,6 @@ export default function SearchInput({
           ))}
         </ul>
       )}
-    </div>
+    </form>
   );
 }

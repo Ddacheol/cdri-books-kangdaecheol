@@ -22,7 +22,7 @@ export default function FavoriteBooks() {
   });
 
   return (
-    <main>
+    <main className="flex-1 flex flex-col">
       <h2 className="typo-title-2">내가 찜한 책</h2>
       <div className="flex flex-row items-center gap-4 mt-4 typo-caption">
         <span>찜한 책</span>

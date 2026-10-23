@@ -20,7 +20,7 @@ export default function Header() {
       <Tabs
         value={pathname}
         onValueChange={handleTabValueChange}
-        className="shrink-0"
+        className="max-xs:mt-1"
       >
         <TabsList variant="line">
           <TabsTrigger value="/">도서 검색</TabsTrigger>

@@ -84,7 +84,10 @@ export default function BookList({
                 </div>
                 <div
                   className={cn(
-                    "min-w-0 gap-x-4 flex-1 flex flex-wrap items-center mt-4 ml-12 transition-[margin] duration-300 motion-reduce:transition-none max-sm:mt-5 max-sm:order-3 max-sm:basis-full max-sm:flex-col max-sm:ml-0 max-sm:items-start",
+                    "flex flex-1 flex-wrap items-center min-w-0 gap-x-4",
+                    "mt-4 ml-12 transition-[margin] duration-300",
+                    "max-sm:order-3 max-sm:mt-5 max-sm:ml-0",
+                    "max-sm:basis-full max-sm:flex-col max-sm:items-start",
                     isOpen && "ml-8",
                   )}
                 >
@@ -148,7 +151,14 @@ export default function BookList({
                     구매하기
                   </Button>
                   {isOpen && (
-                    <div className="flex flex-col items-end w-full max-h-60 overflow-hidden opacity-100 transition-[max-height,opacity] [transition-duration:0ms,300ms] delay-300 starting:max-h-0 starting:opacity-0 ">
+                    <div
+                      className={cn(
+                        "flex w-full flex-col items-end overflow-hidden",
+                        "max-h-60 opacity-100",
+                        "transition-[max-height,opacity] [transition-duration:0ms,300ms] delay-300",
+                        "starting:max-h-0 starting:opacity-0",
+                      )}
+                    >
                       <div className="flex flex-col items-end">
                         <div className="flex items-center gap-1.5 text-right">
                           <span className="w-[33px] typo-small text-text-subtitle">

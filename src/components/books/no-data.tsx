@@ -12,7 +12,12 @@ export default function NoData({
   onRetry?: () => void;
 }) {
   return (
-    <div className={cn("flex flex-col items-center w-full ", className)}>
+    <div
+      className={cn(
+        "flex-1 flex flex-col items-center justify-center w-full ",
+        className,
+      )}
+    >
       <div className="max-w-20 max-h-20">
         <img src="/icons/icon_book.png" alt={text} />
       </div>
