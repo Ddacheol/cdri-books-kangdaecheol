@@ -11,8 +11,8 @@ const queryClient = new QueryClient({
       gcTime: 1000 * 60 * 5, // 5분
       retry: 1, // 실패 시 1회 재시도
       refetchOnWindowFocus: false,
-      refetchOnReconnect: true,
-      refetchOnMount: "always",
+      refetchOnReconnect: false,
+      refetchOnMount: false,
     },
     mutations: {
       retry: 0,

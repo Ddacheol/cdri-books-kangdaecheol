@@ -17,6 +17,7 @@ export const useInfiniteBooks = (form: BookSearchForm) => {
       return lastPage.meta.is_end ? undefined : allPages.length + 1;
     },
     enabled: form.query.trim().length > 0,
+    retry: false,
   });
 
   const books = data.pages.flatMap((page) => page.documents);

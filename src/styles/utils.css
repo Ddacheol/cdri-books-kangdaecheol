@@ -45,7 +45,3 @@
   line-height: 1.6;
   font-weight: 500;
 }
-
-@utility transition-all-inout2 {
-  @apply transition-all duration-300 ease-inout2;
-}

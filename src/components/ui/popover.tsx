@@ -29,15 +29,15 @@ function PopoverContent({
         alignOffset={alignOffset}
         side={side}
         sideOffset={sideOffset}
+        collisionPadding={12}
         className="isolate z-50"
       >
         <PopoverPrimitive.Popup
           data-slot="popover-content"
           className={cn(
             [
-              "pt-2 pb-9 px-2 mx-2",
-              "min-w-[360px]",
-              "max-xs:min-w-[calc(100% - 24px)]",
+              "pt-2 pb-9 px-2",
+              "w-[360px] max-w-(--available-width)",
               "rounded-lg shadow-[0px_4px_14px_6px_#97979726]",
               "origin-(--transform-origin) duration-100",
               "data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95",
@@ -66,17 +66,4 @@ function PopoverTitle({ ...props }: PopoverPrimitive.Title.Props) {
   return <PopoverPrimitive.Title data-slot="popover-title" {...props} />;
 }
 
-function PopoverDescription({ ...props }: PopoverPrimitive.Description.Props) {
-  return (
-    <PopoverPrimitive.Description data-slot="popover-description" {...props} />
-  );
-}
-
-export {
-  Popover,
-  PopoverContent,
-  PopoverDescription,
-  PopoverHeader,
-  PopoverTitle,
-  PopoverTrigger,
-};
+export { Popover, PopoverContent, PopoverHeader, PopoverTitle, PopoverTrigger };

@@ -20,18 +20,35 @@ export default function SearchBooks() {
     totalCount,
     isFetching,
     isFetchingNextPage,
+    isError,
+    isFetchNextPageError,
     hasNextPage,
     fetchNextPage,
+    refetch,
   } = useInfiniteBooks(detailSearch);
+
+  const hasBooks = books.length > 0;
+  const showInitialLoading = !hasBooks && isFetching;
+  const showNoData = !hasBooks && !isFetching && !isError;
 
   const observerRef = useInfiniteScroll({
     onLoad: fetchNextPage,
-    hasNextPage,
+    hasNextPage: hasNextPage && !isError,
     isLoading: isFetching,
   });
 
   const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
+  };
+
+  const handleRetry = () => {
+    if (isFetching) return;
+
+    if (isFetchNextPageError) {
+      fetchNextPage();
+    } else {
+      refetch();
+    }
   };
 
   const handleDeleteInput = () => {
@@ -77,17 +94,24 @@ export default function SearchBooks() {
           총 <span className="text-primary">{totalCount}</span>건
         </span>
       </div>
-      {isFetching && !isFetchingNextPage ? (
-        <Loading className="py-30" size={60} />
-      ) : books.length > 0 ? (
-        <>
-          <BookList books={books} />
-          {isFetchingNextPage && <Loading className="py-5" size={30} />}
-        </>
-      ) : (
+      {hasBooks && <BookList books={books} />}
+      {(showInitialLoading || isFetchingNextPage) && (
+        <Loading
+          className={isFetchingNextPage ? "py-5" : "py-30"}
+          size={isFetchingNextPage ? 30 : 60}
+        />
+      )}
+      {showNoData && (
         <NoData text="검색된 결과가 없습니다." className="py-30" />
       )}
       <div ref={observerRef} className="h-1" />
+      {isError && !isFetching && (
+        <NoData
+          text={`에러가 발생했습니다.\n다시 시도해주세요.`}
+          className={hasBooks ? "py-5" : "py-30"}
+          onRetry={handleRetry}
+        />
+      )}
     </main>
   );
 }

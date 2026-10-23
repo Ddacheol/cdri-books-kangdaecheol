@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 type ButtonProps = ButtonPrimitive.Props & VariantProps<typeof buttonVariants>;
 
 const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center rounded-lg cursor-pointer disabled:cursor-default disabled:bg-gray disabled:hover:bg-gray disabled:active:bg-gray disabled:focus:bg-gray has-[[class*='ico-']]:gap-1 [&_.ico-arrow]:mt-0.5 [&_i]:transition-transform [&_i]:ease-inout1 [&_i]:duration-300",
+  "inline-flex shrink-0 items-center justify-center rounded-lg cursor-pointer disabled:cursor-default disabled:bg-gray disabled:hover:bg-gray disabled:active:bg-gray disabled:focus:bg-gray has-[[class*='ico-']]:gap-1 [&_.ico-arrow]:mt-0.5 [&_i]:transition-transform [&_i]:duration-300",
   {
     variants: {
       variant: {
